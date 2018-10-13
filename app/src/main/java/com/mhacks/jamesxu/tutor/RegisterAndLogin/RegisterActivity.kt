@@ -10,10 +10,13 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.mhacks.jamesxu.tutor.Objects.User
 import com.mhacks.jamesxu.tutor.R
 import com.mhacks.jamesxu.tutor.StudTutorActivity
 import kotlinx.android.synthetic.main.activity_register.*
+import java.io.Serializable
 import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
@@ -27,7 +30,7 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
+        //Set photo
         photo_button_register.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             //Look at all images on phone
@@ -35,16 +38,21 @@ class RegisterActivity : AppCompatActivity() {
             startActivityForResult(intent, 0)
         }
 
+        //Register User
         register_button_register.setOnClickListener {
             registerUser();
-        }
 
-
-        /*register_button_register.setOnClickListener {
+            //Go to StudTutor activity
             val intent = Intent(this, StudTutorActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
-        }*/
+        }
+
+        //Go to login activity
+        have_account_text.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 
@@ -98,6 +106,7 @@ class RegisterActivity : AppCompatActivity() {
 
     //Upload the selected profile pic to firebase storage
     private fun uploadPicToStorage() {
+
         if (photoUri == null) return
 
         val filename = UUID.randomUUID().toString()
@@ -120,18 +129,18 @@ class RegisterActivity : AppCompatActivity() {
 
     //After saving the profile image as a Url, save a new instance of User to database
     private fun saveUserToDatabase(profileImageUrl: String) {
-        //TODO: save user
+        val uid = FirebaseAuth.getInstance().uid ?: ""
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
 
-        Log.d("RegisterActivity", "testing testing")
+        val user = User(uid, username_register.text.toString(), major_register.text.toString(), profileImageUrl)
+
+        ref.setValue(user)
+                .addOnSuccessListener {
+                    Log.d("RegisterActivity", "Saved user to Firebase database")
+
+                }
+                .addOnFailureListener {
+                    Log.d("RegisterActivity", "Failed to save user to Firebase database")
+                }
     }
 }
-
-
-
-
-
-
-
-
-
-
