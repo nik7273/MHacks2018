@@ -54,7 +54,8 @@ class StudentFragment : Fragment() {
         ref.setValue(request)
             .addOnSuccessListener {
                 Log.d("James", "Save request")
-                fragmentManager?.beginTransaction()?.replace(R.id.fragment_container, WaitingFragment())
+
+                (activity as? StudTutorActivity)?.navigateToFragment(WaitingFragment())
             }
     }
 

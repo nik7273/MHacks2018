@@ -42,12 +42,12 @@ class StudTutorActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.navigation_home -> {
                 supportActionBar?.title = "Student Requests"
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, mapFrag).commit()
+                navigateToFragment(mapFrag)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {
                 supportActionBar?.title = "Request a Tutor"
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, studentFrag).commit()
+                navigateToFragment(studentFrag)
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -74,6 +74,10 @@ class StudTutorActivity : AppCompatActivity() {
 
         verifyUserIsLoggedIn()
         fetchCurrentUser()
+    }
+
+    fun navigateToFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
     }
 
     //If there is no uid, user is not logged in so go to register page

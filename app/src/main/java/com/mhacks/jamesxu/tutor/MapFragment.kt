@@ -67,11 +67,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val ref = FirebaseDatabase.getInstance().getReference("/requests")
         ref.addChildEventListener(object: ChildEventListener {
             override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
