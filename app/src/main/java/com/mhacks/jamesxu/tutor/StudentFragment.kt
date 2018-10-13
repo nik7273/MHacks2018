@@ -1,15 +1,23 @@
 package com.mhacks.jamesxu.tutor
 
 import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.google.firebase.database.FirebaseDatabase
+import com.mhacks.jamesxu.tutor.Objects.Request
 import kotlinx.android.synthetic.main.fragment_student.*
+import com.google.android.gms.tasks.Task
+import java.util.jar.Manifest
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -30,6 +38,7 @@ class StudentFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_student, container, false)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         request_button_request.setOnClickListener {
@@ -38,7 +47,16 @@ class StudentFragment : Fragment() {
             if (subjectText.isEmpty() || courseText.isEmpty()) {
                 Toast.makeText(context, "Please enter a course", Toast.LENGTH_SHORT).show()
             }
-            val ref = FirebaseDatabase.getInstance().reference
+            val uid = 1
+            Log.d("James", "" + StudTutorActivity.lat)
+            Log.d("James", "" + StudTutorActivity.long)
+            val request = Request("UID", subjectText, courseText, "profileImg", StudTutorActivity.lat, StudTutorActivity.long)
+            val ref = FirebaseDatabase.getInstance().getReference("/requests/$uid")
+            ref.setValue(request)
+                .addOnSuccessListener {
+                    Log.d("James", "Save request")
+                //fragmentManager?.beginTransaction() go to reyclerview
+            }
         }
     }
 

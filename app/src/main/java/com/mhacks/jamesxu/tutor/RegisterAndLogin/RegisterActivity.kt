@@ -138,7 +138,6 @@ class RegisterActivity : AppCompatActivity() {
                     val intent = Intent(this, StudTutorActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
-
                 }
                 .addOnFailureListener {
                     Log.d("RegisterActivity", "Failed to save user to Firebase database")
