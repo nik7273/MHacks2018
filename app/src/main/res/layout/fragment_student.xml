@@ -9,14 +9,14 @@
         tools:context=".RegisterAndLogin.RegisterActivity">
 
     <EditText
-            android:id="@+id/username_register"
+            android:id="@+id/subject_request"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginEnd="32dp"
             android:layout_marginLeft="32dp"
             android:layout_marginRight="32dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="80dp"
             android:background="@drawable/rounded"
             android:ems="10"
             android:hint="Subject"
@@ -24,10 +24,10 @@
             android:paddingLeft="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/photo_button_register" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-            android:id="@+id/major_register"
+            android:id="@+id/course_request"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginTop="18dp"
@@ -36,67 +36,40 @@
             android:hint="Course Number"
             android:inputType="textPersonName"
             android:paddingLeft="16dp"
-            app:layout_constraintEnd_toEndOf="@+id/username_register"
-            app:layout_constraintStart_toStartOf="@+id/username_register"
-            app:layout_constraintTop_toBottomOf="@+id/username_register" />
+            app:layout_constraintEnd_toEndOf="@+id/subject_request"
+            app:layout_constraintStart_toStartOf="@+id/subject_request"
+            app:layout_constraintTop_toBottomOf="@+id/subject_request" />
 
     <EditText
-            android:id="@+id/email_register"
+            android:id="@+id/additional_requests"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="120dp"
             android:layout_marginTop="18dp"
             android:background="@drawable/rounded"
             android:ems="10"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
+            android:hint="Additional Information"
+            android:inputType="textMultiLine"
+            android:singleLine="false"
             android:paddingLeft="16dp"
-            app:layout_constraintEnd_toEndOf="@+id/major_register"
-            app:layout_constraintStart_toStartOf="@+id/major_register"
-            app:layout_constraintTop_toBottomOf="@+id/major_register" />
+            app:layout_constraintEnd_toEndOf="@+id/course_request"
+            app:layout_constraintStart_toStartOf="@+id/course_request"
+            app:layout_constraintTop_toBottomOf="@+id/course_request" />
 
-    <EditText
-            android:id="@+id/password_register"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="18dp"
-            android:background="@drawable/rounded"
-            android:ems="10"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:paddingLeft="16dp"
-            app:layout_constraintEnd_toEndOf="@+id/email_register"
-            app:layout_constraintStart_toStartOf="@+id/email_register"
-            app:layout_constraintTop_toBottomOf="@+id/email_register" />
 
     <Button
-            android:id="@+id/register_button_register"
+            android:id="@+id/request_button_request"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:background="@drawable/rounded_button"
-            android:text="Register"
+            android:text="Request"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/password_register"
-            app:layout_constraintStart_toStartOf="@+id/password_register"
-            app:layout_constraintTop_toBottomOf="@+id/password_register" />
+            app:layout_constraintEnd_toEndOf="@+id/additional_requests"
+            app:layout_constraintStart_toStartOf="@+id/additional_requests"
+            app:layout_constraintTop_toBottomOf="@+id/additional_requests" />
 
-    <TextView
-            android:id="@+id/have_account_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="14dp"
-            android:text="Have an account?"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/register_button_register"
-            app:layout_constraintStart_toStartOf="@+id/register_button_register"
-            app:layout_constraintTop_toBottomOf="@+id/register_button_register" />
+
 
 
 </android.support.constraint.ConstraintLayout>

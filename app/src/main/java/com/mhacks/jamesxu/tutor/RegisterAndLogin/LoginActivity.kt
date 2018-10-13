@@ -20,9 +20,7 @@ class LoginActivity : AppCompatActivity() {
 
         login_button_login.setOnClickListener {
             userLogin()
-            val intent = Intent(this, StudTutorActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
+
         }
 
         //Go to register activity
@@ -48,7 +46,9 @@ class LoginActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener {
                     if (!it.isSuccessful) return@addOnCompleteListener
-
+                    val intent = Intent(this, StudTutorActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
                     //If successful
                     Log.d("Login", "Successfully logged in: ${it.result?.user!!.uid}")
                 }

@@ -23,10 +23,12 @@ class StudTutorActivity : AppCompatActivity() {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
+                supportActionBar?.title = "Student Requests"
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container, mapFrag).commit()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {
+                supportActionBar?.title = "Request a Tutor"
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container, studentFrag).commit()
                 return@OnNavigationItemSelectedListener true
             }
@@ -37,7 +39,7 @@ class StudTutorActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stud_tutor)
-
+        supportActionBar?.title = "Student Requests"
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         supportFragmentManager.beginTransaction().add(R.id.fragment_container, mapFrag).commit()
 
