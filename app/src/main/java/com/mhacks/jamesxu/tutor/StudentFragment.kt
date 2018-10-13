@@ -39,24 +39,29 @@ class StudentFragment : Fragment() {
     }
 
 
+    fun addRequest() {
+        val subjectText = subject_request.text.toString()
+        val courseText = course_request.text.toString()
+        if (subjectText.isEmpty() || courseText.isEmpty()) {
+            Toast.makeText(context, "Please enter a course", Toast.LENGTH_SHORT).show()
+            return;
+        }
+        val uid = StudTutorActivity.currentUser?.uid
+        Log.d("James", "" + StudTutorActivity.lat)
+        Log.d("James", "" + StudTutorActivity.long)
+        val request = Request(uid!!, subjectText, courseText, StudTutorActivity.currentUser!!.profileImageUrl, StudTutorActivity.lat, StudTutorActivity.long)
+        val ref = FirebaseDatabase.getInstance().getReference("/requests/$uid")
+        ref.setValue(request)
+            .addOnSuccessListener {
+                Log.d("James", "Save request")
+                fragmentManager?.beginTransaction()?.replace(R.id.fragment_container, WaitingFragment())
+            }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         request_button_request.setOnClickListener {
-            val subjectText = subject_request.text.toString()
-            val courseText = course_request.text.toString()
-            if (subjectText.isEmpty() || courseText.isEmpty()) {
-                Toast.makeText(context, "Please enter a course", Toast.LENGTH_SHORT).show()
-            }
-            val uid = 1
-            Log.d("James", "" + StudTutorActivity.lat)
-            Log.d("James", "" + StudTutorActivity.long)
-            val request = Request("UID", subjectText, courseText, "profileImg", StudTutorActivity.lat, StudTutorActivity.long)
-            val ref = FirebaseDatabase.getInstance().getReference("/requests/$uid")
-            ref.setValue(request)
-                .addOnSuccessListener {
-                    Log.d("James", "Save request")
-                //fragmentManager?.beginTransaction() go to reyclerview
-            }
+            addRequest()
         }
     }
 
