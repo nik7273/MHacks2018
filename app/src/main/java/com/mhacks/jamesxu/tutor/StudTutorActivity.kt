@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -13,6 +14,13 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.mhacks.jamesxu.tutor.Objects.User
+import com.mhacks.jamesxu.tutor.RegisterAndLogin.RegisterActivity
 import kotlinx.android.synthetic.main.activity_stud_tutor.*
 
 class StudTutorActivity : AppCompatActivity() {
@@ -36,6 +44,10 @@ class StudTutorActivity : AppCompatActivity() {
         false
     }
 
+    companion object {
+        var currentUser: User? = null
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stud_tutor)
@@ -43,7 +55,41 @@ class StudTutorActivity : AppCompatActivity() {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         supportFragmentManager.beginTransaction().add(R.id.fragment_container, mapFrag).commit()
 
+
+        verifyUserIsLoggedIn()
+        fetchCurrentUser()
+
     }
+
+    //If there is no uid, user is not logged in so go to register page
+    private fun verifyUserIsLoggedIn() {
+        val uid = FirebaseAuth.getInstance().uid
+        if (uid == null) {
+            val intent = Intent(this, RegisterActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+    }
+
+    //Get the current logged in user
+    private fun fetchCurrentUser() {
+        //Get user id from authentication
+        val uid = FirebaseAuth.getInstance().uid
+        //Find the id in the database to get all info, and set currentUser
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+
+        ref.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                currentUser = p0.getValue(User::class.java)
+                Log.d("LatestMessages", "Current User: ${currentUser?.username}, ${currentUser?.uid}")
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+            }
+        })
+    }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
