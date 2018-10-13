@@ -17,6 +17,14 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         supportActionBar?.title = "Login"
 
+
+        login_button_login.setOnClickListener {
+            userLogin()
+            val intent = Intent(this, StudTutorActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+
         //Go to register activity
         new_account_textview.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
