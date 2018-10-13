@@ -1,15 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:background="@color/colorPrimary"
-             tools:context=".StudentFragment">
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        tools:context=".RegisterAndLogin.RegisterActivity">
 
-  <!-- TODO: Update blank fragment layout -->
-  <TextView
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:text="@string/hello_blank_fragment"/>
+    <EditText
+            android:id="@+id/subject_request"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/rounded"
+            android:ems="10"
+            android:hint="Subject"
+            android:inputType="textPersonName"
+            android:paddingLeft="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <EditText
+            android:id="@+id/course_request"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/rounded"
+            android:ems="10"
+            android:hint="Course Number"
+            android:inputType="textPersonName"
+            android:paddingLeft="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/subject_request"
+            app:layout_constraintStart_toStartOf="@+id/subject_request"
+            app:layout_constraintTop_toBottomOf="@+id/subject_request" />
+
+    <EditText
+            android:id="@+id/additional_requests"
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/rounded"
+            android:ems="10"
+            android:hint="Additional Information"
+            android:inputType="textMultiLine"
+            android:singleLine="false"
+            android:paddingLeft="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/course_request"
+            app:layout_constraintStart_toStartOf="@+id/course_request"
+            app:layout_constraintTop_toBottomOf="@+id/course_request" />
+
+
+    <Button
+            android:id="@+id/request_button_request"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/rounded_button"
+            android:text="Request"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/additional_requests"
+            app:layout_constraintStart_toStartOf="@+id/additional_requests"
+            app:layout_constraintTop_toBottomOf="@+id/additional_requests" />
+
+
+
+
+</android.support.constraint.ConstraintLayout>
