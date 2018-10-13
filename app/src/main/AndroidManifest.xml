@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.mhacks.jamesxu.tutor">
-
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -31,6 +31,26 @@
         </activity>
         <activity android:name=".ReviewActivity">
         </activity>
+
+        <!-- [START fcm_listener] -->
+        <service
+            android:name=".fcm.VoiceFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <!-- [END fcm_listener] -->
+        <!-- [START instanceId_listener] -->
+        <service
+            android:name=".fcm.VoiceFirebaseInstanceIDService" >
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <!-- [END instanceId_listener] -->
     </application>
+
+
+
 
 </manifest>
