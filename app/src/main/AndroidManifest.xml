@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.mhacks.jamesxu.tutor">
+<<<<<<< HEAD
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+=======
 
     <!--
            The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -12,6 +15,7 @@
             android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission
             android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+>>>>>>> 964043757f9617994b5350fe79dbebea13e4e3a1
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -41,6 +45,23 @@
         </activity>
         <activity android:name=".ReviewActivity">
         </activity>
+
+        <!-- [START fcm_listener] -->
+        <service
+            android:name=".fcm.VoiceFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <!-- [END fcm_listener] -->
+        <!-- [START instanceId_listener] -->
+        <service
+            android:name=".fcm.VoiceFirebaseInstanceIDService" >
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <!-- [END instanceId_listener] -->
         <!--
                  The API key for Google Maps-based APIs is defined as a string resource.
                  (See the file "res/values/google_maps_api.xml").
@@ -65,5 +86,8 @@
                 android:value="@string/google_maps_key"/>
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
     </application>
+
+
+
 
 </manifest>
