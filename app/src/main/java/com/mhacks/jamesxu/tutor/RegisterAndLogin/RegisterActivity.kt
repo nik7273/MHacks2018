@@ -43,9 +43,7 @@ class RegisterActivity : AppCompatActivity() {
             registerUser();
 
             //Go to StudTutor activity
-            val intent = Intent(this, StudTutorActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
+
         }
 
         //Go to login activity
@@ -137,6 +135,9 @@ class RegisterActivity : AppCompatActivity() {
         ref.setValue(user)
                 .addOnSuccessListener {
                     Log.d("RegisterActivity", "Saved user to Firebase database")
+                    val intent = Intent(this, StudTutorActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
 
                 }
                 .addOnFailureListener {
