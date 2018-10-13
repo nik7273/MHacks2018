@@ -32,10 +32,12 @@ class StudTutorActivity : AppCompatActivity() {
 
     private val studentFrag = StudentFragment()
     private val mapFrag = MapFragment()
+    private val waitingFragment = WaitingFragment()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     companion object {
         var lat = 0.0
         var long = 0.0
+        var waiting: Boolean = false
         var currentUser: User? = null
     }
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -47,7 +49,10 @@ class StudTutorActivity : AppCompatActivity() {
             }
             R.id.navigation_notifications -> {
                 supportActionBar?.title = "Request a Tutor"
-                navigateToFragment(studentFrag)
+                if (waiting)
+                    navigateToFragment(waitingFragment)
+                else
+                    navigateToFragment(studentFrag)
                 return@OnNavigationItemSelectedListener true
             }
         }

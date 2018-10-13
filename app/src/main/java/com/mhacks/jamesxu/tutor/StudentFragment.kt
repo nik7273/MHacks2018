@@ -42,6 +42,7 @@ class StudentFragment : Fragment() {
     fun addRequest() {
         val subjectText = subject_request.text.toString()
         val courseText = course_request.text.toString()
+        val additional = additional_requests.text.toString()
         if (subjectText.isEmpty() || courseText.isEmpty()) {
             Toast.makeText(context, "Please enter a course", Toast.LENGTH_SHORT).show()
             return;
@@ -49,13 +50,13 @@ class StudentFragment : Fragment() {
         val uid = StudTutorActivity.currentUser?.uid
         Log.d("James", "" + StudTutorActivity.lat)
         Log.d("James", "" + StudTutorActivity.long)
-        val request = Request(uid!!, subjectText, courseText, StudTutorActivity.currentUser!!.profileImageUrl, StudTutorActivity.lat, StudTutorActivity.long)
+        val request = Request(uid!!, subjectText, courseText, StudTutorActivity.currentUser!!.profileImageUrl, StudTutorActivity.currentUser!!.username, additional,  StudTutorActivity.currentUser!!.major, StudTutorActivity.lat, StudTutorActivity.long)
         val ref = FirebaseDatabase.getInstance().getReference("/requests/$uid")
         ref.setValue(request)
             .addOnSuccessListener {
                 Log.d("James", "Save request")
-
                 (activity as? StudTutorActivity)?.navigateToFragment(WaitingFragment())
+                StudTutorActivity.waiting = true
             }
     }
 

@@ -1,13 +1,19 @@
 package com.mhacks.jamesxu.tutor
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AutoCompleteTextView
+import android.widget.EditText
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -25,6 +31,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private var mMap: GoogleMap? = null
     private var mapView: MapView? = null
+    private var requests = mutableMapOf<LatLng, Request>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +67,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         // Add a marker in Sydney and move the camera
         val michigan = LatLng(42.2780, -83.7382)
-        mMap?.addMarker(MarkerOptions().position(michigan).title("University of Michigan"))
+        //mMap?.addMarker(MarkerOptions().position(michigan).title("University of Michigan"))
         mMap?.moveCamera(CameraUpdateFactory.newLatLng(michigan))
         mMap?.setMinZoomPreference(16f)
 
@@ -80,20 +87,41 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 Log.d("James", ""+long)
                 val mark = LatLng(lat, long)
                 mMap?.addMarker(MarkerOptions().position(mark).title("${request.subject} ${request.course}"))
+                requests[LatLng(lat,long)] = request
             }
 
             override fun onChildRemoved(p0: DataSnapshot) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
 
             override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
         })
 
         mMap?.setOnInfoWindowClickListener {
-            Log.d("James", "Clicked!")
+            val request = requests[it.position]
+            val alertDialog = AlertDialog.Builder(context).create()
+            alertDialog.setTitle("${request?.name} (${request?.major}) wants to be tutored in ${request?.subject} ${request?.course}")
+            alertDialog.setMessage("${request?.additional}")
+            val view = LayoutInflater.from(context).inflate(R.layout.dialog_popup, getView() as ViewGroup, false)
+            val input = view.findViewById<AutoCompleteTextView>(R.id.input)
+            alertDialog.setView(view)
+            alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Send Offer", DialogInterface.OnClickListener { dialogInterface, i ->
+                Log.d("James", "Hello")
+            })
+            alertDialog.setButton(Dialog.BUTTON_NEUTRAL, "Cancel", DialogInterface.OnClickListener { dialogInterface, i ->
+                alertDialog.cancel()
+            })
+
+
+            alertDialog.show()
+
+
+
         }
+
+
     }
 
 }
