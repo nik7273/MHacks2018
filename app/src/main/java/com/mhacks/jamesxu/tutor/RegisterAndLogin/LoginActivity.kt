@@ -9,6 +9,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.mhacks.jamesxu.tutor.R
 import com.mhacks.jamesxu.tutor.StudTutorActivity
 import kotlinx.android.synthetic.main.activity_login.*
+import android.opengl.ETC1.getHeight
+import android.support.v4.os.HandlerCompat.postDelayed
+import android.view.View
+
 
 class LoginActivity : AppCompatActivity() {
 

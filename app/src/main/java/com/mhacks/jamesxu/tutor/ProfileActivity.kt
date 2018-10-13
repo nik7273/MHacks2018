@@ -31,6 +31,9 @@ class ProfileActivity : AppCompatActivity() {
         username_profile.setText(currentUser!!.username)
         major_profile.setText(currentUser!!.major)
 
+        avgRating_profile.setText("Average Rating: ${currentUser!!.avgRating}/5.0")
+        numRatings_profile.setText("Number of Ratings: ${currentUser!!.numRatings}")
+
         //Update photo
         photo_button_profile.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
@@ -104,7 +107,7 @@ class ProfileActivity : AppCompatActivity() {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
 
-        val user = User(uid, username_profile.text.toString(), major_profile.text.toString(), photoUri.toString())
+        val user = User(uid, username_profile.text.toString(), major_profile.text.toString(), photoUri.toString(), currentUser!!.avgRating, currentUser!!.numRatings)
 
         ref.setValue(user)
                 .addOnSuccessListener {
