@@ -25,7 +25,11 @@
         <activity android:name=".ProfileActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.mhacks.jamesxu.tutor.StudTutorActivity" />
+                    android:value="com.mhacks.jamesxu.tutor.StudTutorActivity"/>
+        </activity>
+        <activity android:name=".MessagingActivity">
+        </activity>
+        <activity android:name=".ReviewActivity">
         </activity>
     </application>
 
