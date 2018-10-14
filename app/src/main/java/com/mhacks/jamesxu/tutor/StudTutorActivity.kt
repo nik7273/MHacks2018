@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.renderscript.Sampler
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -24,6 +25,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.mhacks.jamesxu.tutor.Objects.Offer
 import com.mhacks.jamesxu.tutor.Objects.User
 import com.mhacks.jamesxu.tutor.RegisterAndLogin.RegisterActivity
 import kotlinx.android.synthetic.main.activity_stud_tutor.*
@@ -76,6 +78,22 @@ class StudTutorActivity : AppCompatActivity() {
                 long = location.longitude
             }
         }
+
+        val ref = FirebaseDatabase.getInstance().getReference("accepted/${currentUser?.uid}")
+        ref.addValueEventListener(object: ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val uid = p0.getValue(String::class.java)
+                val intent = Intent(this@StudTutorActivity, ChatLogActivity::class.java)
+                intent.putExtra("FriendUid", uid)
+                startActivity(intent)
+            }
+
+        })
+
 
         verifyUserIsLoggedIn()
         fetchCurrentUser()
