@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.database.*
 import com.mhacks.jamesxu.tutor.Objects.Offer
+import com.mhacks.jamesxu.tutor.Objects.User
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
@@ -44,7 +45,8 @@ class WaitingFragment : Fragment() {
 
         adapter.setOnItemClickListener { item, view ->
             val uid = (item as UserItem).uid
-            val ref = FirebaseDatabase.getInstance().getReference("/accepted/${uid}")
+            val user = User(uid,"","","",0.0,0)
+            val ref = FirebaseDatabase.getInstance().getReference("/accepted/${user}")
             ref.setValue(uid)
             val intent = Intent(context, ChatLogActivity::class.java)
             intent.putExtra("FriendUid", uid)
