@@ -91,8 +91,8 @@ class StudTutorActivity : AppCompatActivity() {
             }
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                val uid = p0.getValue(String::class.java)
-                if (p0.key == uid) {
+                val uid = p0.getValue(User::class.java)?.uid
+                if (p0.key == currentUser?.uid) {
 
                     val friendRef = FirebaseDatabase.getInstance().getReference("/users/$uid")
                     friendRef.addListenerForSingleValueEvent(object: ValueEventListener {

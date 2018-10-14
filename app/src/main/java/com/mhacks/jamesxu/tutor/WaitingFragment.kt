@@ -48,9 +48,18 @@ class WaitingFragment : Fragment() {
             val user = User(uid,"","","",0.0,0)
             val ref = FirebaseDatabase.getInstance().getReference("/accepted/${uid}")
             ref.setValue(user)
-            val intent = Intent(context, ChatLogActivity::class.java)
-            intent.putExtra("FriendUid", uid)
-            //startActivity(intent)
+
+            val friendRef = FirebaseDatabase.getInstance().getReference("/users/$uid")
+            friendRef.addListenerForSingleValueEvent(object: ValueEventListener {
+                override fun onDataChange(p0: DataSnapshot) {
+                    val friend = p0.getValue(User::class.java)
+                    val intent = Intent(context, ChatLogActivity::class.java)
+                    intent.putExtra("Friend", friend)
+                    startActivity(intent)
+                }
+                override fun onCancelled(p0: DatabaseError) {
+                }
+            })
         }
 
         val ref = FirebaseDatabase.getInstance().getReference("/offers/${StudTutorActivity.currentUser?.uid}")
