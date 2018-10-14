@@ -5,37 +5,43 @@
             android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission
             android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <application
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme">
-        <activity android:name=".RegisterAndLogin.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <activity android:name=".RegisterAndLogin.RegisterActivity">
-        </activity>
-        <activity
-            android:name=".StudTutorActivity"
-            android:label="@string/title_activity_stud_tutor">
-        </activity>
-        <activity android:name=".ProfileActivity">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.mhacks.jamesxu.tutor.StudTutorActivity"/>
-        </activity>
-        <activity android:name=".MessagingActivity">
-        </activity>
-        <activity android:name=".ReviewActivity">
-        </activity>
+    <uses-permission android:name="android.permission.INTERNET" />
 
-        <!-- [START fcm_listener] -->
+    <!-- READ/WRITE_EXTERNAL_STORAGE permissions are required to upload or download files from/into external storage. -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+        <application
+                android:allowBackup="true"
+                android:icon="@mipmap/ic_launcher"
+                android:label="@string/app_name"
+                android:roundIcon="@mipmap/ic_launcher_round"
+                android:supportsRtl="true"
+                android:theme="@style/AppTheme">
+            <activity android:name=".RegisterAndLogin.LoginActivity">
+                <intent-filter>
+                    <action android:name="android.intent.action.MAIN"/>
+
+                    <category android:name="android.intent.category.LAUNCHER"/>
+                </intent-filter>
+            </activity>
+            <activity android:name=".RegisterAndLogin.RegisterActivity">
+            </activity>
+            <activity
+                android:name=".StudTutorActivity"
+                android:label="@string/title_activity_stud_tutor">
+            </activity>
+            <activity android:name=".ProfileActivity">
+                <meta-data
+                        android:name="android.support.PARENT_ACTIVITY"
+                        android:value="com.mhacks.jamesxu.tutor.StudTutorActivity"/>
+            </activity>
+            <activity android:name=".MessagingActivity">
+            </activity>
+            <activity android:name=".ReviewActivity">
+            </activity>
+
+            <!-- [START fcm_listener] -->
         <service
             android:name=".fcm.VoiceFirebaseMessagingService">
             <intent-filter>
