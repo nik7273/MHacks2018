@@ -105,7 +105,7 @@ class StudTutorActivity : AppCompatActivity() {
         ref.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 currentUser = p0.getValue(User::class.java)
-                Log.d("LatestMessages", "Current User: ${currentUser?.username}, ${currentUser?.uid}")
+                Log.d("StudyTutorActivity", "Current User: ${currentUser?.username}, ${currentUser?.uid}")
             }
 
             override fun onCancelled(p0: DatabaseError) {

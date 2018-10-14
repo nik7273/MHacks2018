@@ -3,10 +3,7 @@ package com.mhacks.jamesxu.tutor
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.mhacks.jamesxu.tutor.Objects.ChatMessage
 import com.mhacks.jamesxu.tutor.Objects.User
 import com.xwray.groupie.GroupAdapter
@@ -17,23 +14,35 @@ class ChatLogActivity : AppCompatActivity() {
 
     val adapter = GroupAdapter<ViewHolder>()
 
+    var friend: User? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_log)
 
         val currentUser = StudTutorActivity.currentUser
-        val friend = intent.getParcelableExtra<User>("Friend")
+        val friendUid = intent.getStringExtra("FriendUid")
+        //Get the friend's User object using the friend's ID
+        val friendRef = FirebaseDatabase.getInstance().getReference("/users/$friendUid")
+        friendRef.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                friend = p0.getValue(User::class.java)
+            }
+            override fun onCancelled(p0: DatabaseError) {
+            }
+        })
+
 
         //Set title to friend's username
-        supportActionBar?.title = friend.username
+        supportActionBar?.title = friend!!.username
 
         recyclerview_chat_log.adapter = adapter
 
-        listenForMessages(currentUser!!, friend)
+        listenForMessages(currentUser!!, friend!!)
 
         send_chat_log.setOnClickListener {
             Log.d("ChatLogActivity", "Send message")
-            performSendMessage(currentUser, friend)
+            performSendMessage(currentUser, friend!!)
         }
     }
 
