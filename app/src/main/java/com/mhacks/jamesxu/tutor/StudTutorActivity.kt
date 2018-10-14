@@ -76,7 +76,7 @@ class StudTutorActivity : AppCompatActivity() {
             }
         }
 
-        val ref = FirebaseDatabase.getInstance().getReference("/accepted/${currentUser?.uid}")
+        val ref = FirebaseDatabase.getInstance().getReference("/accepted")
         ref.addChildEventListener(object: ChildEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -92,14 +92,29 @@ class StudTutorActivity : AppCompatActivity() {
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 val uid = p0.getValue(String::class.java)
-                val intent = Intent(this@StudTutorActivity, ChatLogActivity::class.java)
-                intent.putExtra("FriendUid", uid)
-                startActivity(intent)
+                if (p0.key == uid) {
+
+                    val friendRef = FirebaseDatabase.getInstance().getReference("/users/$uid")
+                    friendRef.addListenerForSingleValueEvent(object: ValueEventListener {
+                        override fun onDataChange(p0: DataSnapshot) {
+                            val friend = p0.getValue(User::class.java)
+                            val intent = Intent(this@StudTutorActivity, ChatLogActivity::class.java)
+                            intent.putExtra("Friend", friend)
+                            startActivity(intent)
+                        }
+                        override fun onCancelled(p0: DatabaseError) {
+                        }
+                    })
+
+
+
+                }
             }
 
             override fun onChildRemoved(p0: DataSnapshot) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
+
 
         })
 
