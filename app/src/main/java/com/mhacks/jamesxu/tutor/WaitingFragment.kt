@@ -46,11 +46,11 @@ class WaitingFragment : Fragment() {
         adapter.setOnItemClickListener { item, view ->
             val uid = (item as UserItem).uid
             val user = User(uid,"","","",0.0,0)
-            val ref = FirebaseDatabase.getInstance().getReference("/accepted/${user}")
-            ref.setValue(uid)
+            val ref = FirebaseDatabase.getInstance().getReference("/accepted/${uid}")
+            ref.setValue(user)
             val intent = Intent(context, ChatLogActivity::class.java)
             intent.putExtra("FriendUid", uid)
-            startActivity(intent)
+            //startActivity(intent)
         }
 
         val ref = FirebaseDatabase.getInstance().getReference("/offers/${StudTutorActivity.currentUser?.uid}")

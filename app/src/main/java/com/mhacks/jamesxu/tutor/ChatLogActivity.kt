@@ -21,28 +21,20 @@ class ChatLogActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chat_log)
 
         val currentUser = StudTutorActivity.currentUser
-        val friendUid = intent.getStringExtra("FriendInfo")
-        //Get the friend's User object using the friend's ID
-        val friendRef = FirebaseDatabase.getInstance().getReference("/users/$friendUid")
-        friendRef.addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                friend = p0.getValue(User::class.java)
+        val friend = intent.getParcelableExtra<User>("Friend")
 
-                //Set title to friend's username
-                supportActionBar?.title = friend!!.username
+        //Set title to friend's username
+        supportActionBar?.title = friend.username
 
-                recyclerview_chat_log.adapter = adapter
+        recyclerview_chat_log.adapter = adapter
 
-                listenForMessages(currentUser!!, friend!!)
+        listenForMessages(currentUser!!, friend)
 
-                send_chat_log.setOnClickListener {
-                    Log.d("ChatLogActivity", "Send message")
-                    performSendMessage(currentUser, friend!!)
-                }
-            }
-            override fun onCancelled(p0: DatabaseError) {
-            }
-        })
+        send_chat_log.setOnClickListener {
+            Log.d("ChatLogActivity", "Send message")
+            performSendMessage(currentUser, friend)
+        }
+
 
     }
 
