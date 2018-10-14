@@ -109,7 +109,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val input = view.findViewById<AutoCompleteTextView>(R.id.input)
             alertDialog.setView(view)
             alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Send Offer", DialogInterface.OnClickListener { dialogInterface, i ->
-                val ref = FirebaseDatabase.getInstance().getReference("/offers/${StudTutorActivity.currentUser?.uid}")
+                Log.d("James", request?.uid)
+                val ref = FirebaseDatabase.getInstance().getReference("/offers/${request?.uid}")
                 StudTutorActivity.currentUser?.let{
                     ref.setValue(Offer(it.uid, it.username, it.major, input.text.toString(), it.profileImageUrl))
                 }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +48,7 @@ class WaitingFragment : Fragment() {
         ref.addChildEventListener(object: ChildEventListener {
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                Log.d("James", p0.getValue(String::class.java))
                 val offer = p0.getValue(Offer::class.java)
                 offer?.let {
                     adapter.add(UserItem(it.name, it.major, it.price, it.profileImg))
