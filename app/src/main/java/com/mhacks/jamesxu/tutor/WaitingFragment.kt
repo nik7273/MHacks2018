@@ -44,9 +44,9 @@ class WaitingFragment : Fragment() {
         offers_list.adapter = adapter
 
         adapter.setOnItemClickListener { item, view ->
-            val uid = (item as UserItem).uid
-            val user = User(uid,"","","",0.0,0)
-            val ref = FirebaseDatabase.getInstance().getReference("/accepted/${uid}")
+            val uid = (item as UserItem).uid //friend
+            val user = User(StudTutorActivity.currentUser?.uid!!,uid,"","",0.0,0)
+            val ref = FirebaseDatabase.getInstance().getReference("/accepted/${uid}") //friend
             ref.setValue(user)
 
             val friendRef = FirebaseDatabase.getInstance().getReference("/users/$uid")

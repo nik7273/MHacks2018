@@ -91,10 +91,12 @@ class StudTutorActivity : AppCompatActivity() {
             }
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                val uid = p0.getValue(User::class.java)?.uid
+                val user = p0.getValue(User::class.java)
+                val uid = user?.uid //current user
+                val friendUid = user?.username
                 if (p0.key == currentUser?.uid) {
-
-                    val friendRef = FirebaseDatabase.getInstance().getReference("/users/$uid")
+                    Log.d("James", ""+friendUid)
+                    val friendRef = FirebaseDatabase.getInstance().getReference("/users/$friendUid")
                     friendRef.addListenerForSingleValueEvent(object: ValueEventListener {
                         override fun onDataChange(p0: DataSnapshot) {
                             val friend = p0.getValue(User::class.java)
@@ -102,6 +104,7 @@ class StudTutorActivity : AppCompatActivity() {
                             intent.putExtra("Friend", friend)
                             startActivity(intent)
                         }
+
                         override fun onCancelled(p0: DatabaseError) {
                         }
                     })
