@@ -74,7 +74,7 @@ class WaitingFragment : Fragment() {
 
 }
 
-class UserItem(val name: String, val major: String, val price: Double, val profileImg: String): Item<ViewHolder>() {
+class UserItem(val name: String, val major: String, val price: String, val profileImg: String): Item<ViewHolder>() {
     override fun getLayout(): Int {
         return R.layout.offer_row
     }
