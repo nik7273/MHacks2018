@@ -21,10 +21,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.mhacks.jamesxu.tutor.Objects.Offer
 import com.mhacks.jamesxu.tutor.Objects.User
 import com.mhacks.jamesxu.tutor.RegisterAndLogin.RegisterActivity
@@ -80,16 +77,28 @@ class StudTutorActivity : AppCompatActivity() {
         }
 
         val ref = FirebaseDatabase.getInstance().getReference("accepted/${currentUser?.uid}")
-        ref.addValueEventListener(object: ValueEventListener {
+        ref.addChildEventListener(object: ChildEventListener {
             override fun onCancelled(p0: DatabaseError) {
-
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
-            override fun onDataChange(p0: DataSnapshot) {
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 val uid = p0.getValue(String::class.java)
                 val intent = Intent(this@StudTutorActivity, ChatLogActivity::class.java)
                 intent.putExtra("FriendUid", uid)
                 startActivity(intent)
+            }
+
+            override fun onChildRemoved(p0: DataSnapshot) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
         })
