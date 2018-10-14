@@ -102,11 +102,5 @@ class ChatLogActivity : AppCompatActivity() {
                     Log.d("ChatLogActivity", "Failed to save chat message (toReference)")
                 }
 
-
-        //Save message as a latest message
-        /*val latestMessageRef = FirebaseDatabase.getInstance().getReference("/latest-messages/${currentUser.uid}/${friend.uid}")
-        latestMessageRef.setValue(chatMessage)
-        val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/latest-messages/${friend.uid}/${currentUser.uid}")
-        latestMessageToRef.setValue(chatMessage)*/
     }
 }
