@@ -8,10 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.mhacks.jamesxu.tutor.Objects.Offer
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
@@ -45,31 +42,18 @@ class WaitingFragment : Fragment() {
         offers_list.adapter = adapter
 
         val ref = FirebaseDatabase.getInstance().getReference("/offers/${StudTutorActivity.currentUser?.uid}")
-        ref.addChildEventListener(object: ChildEventListener {
+        ref.addValueEventListener(object: ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
 
-            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                Log.d("James", p0.getValue(String::class.java))
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
                 val offer = p0.getValue(Offer::class.java)
                 offer?.let {
                     adapter.add(UserItem(it.name, it.major, it.price, it.profileImg))
                 }
             }
 
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-
-            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-
-            }
-
-            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-
-            }
-
-            override fun onChildRemoved(p0: DataSnapshot) {
-
-            }
 
         })
     }
