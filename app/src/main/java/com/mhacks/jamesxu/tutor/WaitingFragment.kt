@@ -1,6 +1,7 @@
 package com.mhacks.jamesxu.tutor
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -41,6 +42,15 @@ class WaitingFragment : Fragment() {
         val adapter = GroupAdapter<ViewHolder>()
         offers_list.adapter = adapter
 
+        adapter.setOnItemClickListener { item, view ->
+            val uid = (item as UserItem).uid
+            val ref = FirebaseDatabase.getInstance().getReference("/accepted/${uid}")
+            ref.setValue(uid)
+            val intent = Intent(context, ChatLogActivity::class.java)
+            intent.putExtra("FriendUid", uid)
+            startActivity(intent)
+        }
+
         val ref = FirebaseDatabase.getInstance().getReference("/offers/${StudTutorActivity.currentUser?.uid}")
         ref.addValueEventListener(object: ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -50,7 +60,7 @@ class WaitingFragment : Fragment() {
             override fun onDataChange(p0: DataSnapshot) {
                 val offer = p0.getValue(Offer::class.java)
                 offer?.let {
-                    adapter.add(UserItem(it.name, it.major, it.price, it.profileImg))
+                    adapter.add(UserItem(it.uid, it.name, it.major, it.price, it.profileImg))
                 }
             }
 
@@ -60,7 +70,7 @@ class WaitingFragment : Fragment() {
 
 }
 
-class UserItem(val name: String, val major: String, val price: String, val profileImg: String): Item<ViewHolder>() {
+class UserItem(val uid: String, val name: String, val major: String, val price: String, val profileImg: String): Item<ViewHolder>() {
     override fun getLayout(): Int {
         return R.layout.offer_row
     }
