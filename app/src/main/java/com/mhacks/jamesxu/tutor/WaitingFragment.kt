@@ -7,23 +7,19 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.mhacks.jamesxu.tutor.Objects.Offer
+import com.squareup.picasso.Picasso
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.Item
+import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_waiting.*
+import kotlinx.android.synthetic.main.offer_row.view.*
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [WaitingFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [WaitingFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
 class WaitingFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +40,48 @@ class WaitingFragment : Fragment() {
             StudTutorActivity.waiting = false
             (activity as? StudTutorActivity)?.navigateToFragment(StudentFragment())
         }
+        val adapter = GroupAdapter<ViewHolder>()
+        offers_list.adapter = adapter
 
+        val ref = FirebaseDatabase.getInstance().getReference("/offers/${StudTutorActivity.currentUser?.uid}")
+        ref.addChildEventListener(object: ChildEventListener {
+
+            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                val offer = p0.getValue(Offer::class.java)
+                offer?.let {
+                    adapter.add(UserItem(it.name, it.major, it.price, it.profileImg))
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+
+            }
+
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+
+            }
+
+            override fun onChildRemoved(p0: DataSnapshot) {
+
+            }
+
+        })
+    }
+
+}
+
+class UserItem(val name: String, val major: String, val price: Double, val profileImg: String): Item<ViewHolder>() {
+    override fun getLayout(): Int {
+        return R.layout.offer_row
+    }
+
+    override fun bind(viewHolder: ViewHolder, position: Int) {
+        viewHolder.itemView.about.text = "${name}, ${major}, ${price}"
+        Picasso.get().load(profileImg).into(viewHolder.itemView.profile)
     }
 
 }

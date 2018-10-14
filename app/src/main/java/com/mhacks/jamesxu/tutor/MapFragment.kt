@@ -24,6 +24,7 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.mhacks.jamesxu.tutor.Objects.Offer
 import com.mhacks.jamesxu.tutor.Objects.Request
 
 
@@ -108,7 +109,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val input = view.findViewById<AutoCompleteTextView>(R.id.input)
             alertDialog.setView(view)
             alertDialog.setButton(Dialog.BUTTON_POSITIVE, "Send Offer", DialogInterface.OnClickListener { dialogInterface, i ->
-                Log.d("James", "Hello")
+                val ref = FirebaseDatabase.getInstance().getReference("/offers/${StudTutorActivity.currentUser?.uid}")
+                StudTutorActivity.currentUser?.let{
+                    ref.setValue(Offer(it.uid, it.username, it.major, input.text.toString(), it.profileImageUrl))
+                }
+                it.alpha = 0.5f
             })
             alertDialog.setButton(Dialog.BUTTON_NEUTRAL, "Cancel", DialogInterface.OnClickListener { dialogInterface, i ->
                 alertDialog.cancel()
