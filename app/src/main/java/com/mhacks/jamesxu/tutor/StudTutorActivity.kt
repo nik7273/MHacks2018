@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.renderscript.Sampler
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -20,10 +21,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
+import com.mhacks.jamesxu.tutor.Objects.Offer
 import com.mhacks.jamesxu.tutor.Objects.User
 import com.mhacks.jamesxu.tutor.RegisterAndLogin.RegisterActivity
 import kotlinx.android.synthetic.main.activity_stud_tutor.*
@@ -77,6 +76,52 @@ class StudTutorActivity : AppCompatActivity() {
             }
         }
 
+        val ref = FirebaseDatabase.getInstance().getReference("/accepted")
+        ref.addChildEventListener(object: ChildEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                val user = p0.getValue(User::class.java)
+                val uid = user?.uid //current user
+                val friendUid = user?.username
+                if (p0.key == currentUser?.uid) {
+                    Log.d("James", ""+friendUid)
+                    val friendRef = FirebaseDatabase.getInstance().getReference("/users/$friendUid")
+                    friendRef.addListenerForSingleValueEvent(object: ValueEventListener {
+                        override fun onDataChange(p0: DataSnapshot) {
+                            val friend = p0.getValue(User::class.java)
+                            val intent = Intent(this@StudTutorActivity, ChatLogActivity::class.java)
+                            intent.putExtra("Friend", friend)
+                            startActivity(intent)
+                        }
+
+                        override fun onCancelled(p0: DatabaseError) {
+                        }
+                    })
+
+
+
+                }
+            }
+
+            override fun onChildRemoved(p0: DataSnapshot) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+
+        })
+
+
         verifyUserIsLoggedIn()
         fetchCurrentUser()
     }
@@ -105,7 +150,7 @@ class StudTutorActivity : AppCompatActivity() {
         ref.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 currentUser = p0.getValue(User::class.java)
-                Log.d("LatestMessages", "Current User: ${currentUser?.username}, ${currentUser?.uid}")
+                Log.d("StudyTutorActivity", "Current User: ${currentUser?.username}, ${currentUser?.uid}")
             }
 
             override fun onCancelled(p0: DatabaseError) {

@@ -3,10 +3,7 @@ package com.mhacks.jamesxu.tutor
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.mhacks.jamesxu.tutor.Objects.ChatMessage
 import com.mhacks.jamesxu.tutor.Objects.User
 import com.xwray.groupie.GroupAdapter
@@ -16,6 +13,8 @@ import kotlinx.android.synthetic.main.activity_chat_log.*
 class ChatLogActivity : AppCompatActivity() {
 
     val adapter = GroupAdapter<ViewHolder>()
+
+    var friend: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +34,9 @@ class ChatLogActivity : AppCompatActivity() {
             Log.d("ChatLogActivity", "Send message")
             performSendMessage(currentUser, friend)
         }
-    }
 
+
+    }
 
 
     private fun listenForMessages(currentUser: User, friend: User) {
@@ -102,11 +102,5 @@ class ChatLogActivity : AppCompatActivity() {
                     Log.d("ChatLogActivity", "Failed to save chat message (toReference)")
                 }
 
-
-        //Save message as a latest message
-        /*val latestMessageRef = FirebaseDatabase.getInstance().getReference("/latest-messages/${currentUser.uid}/${friend.uid}")
-        latestMessageRef.setValue(chatMessage)
-        val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/latest-messages/${friend.uid}/${currentUser.uid}")
-        latestMessageToRef.setValue(chatMessage)*/
     }
 }
