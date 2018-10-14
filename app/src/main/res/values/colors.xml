@@ -2,4 +2,5 @@
 <resources>
     <color name="colorPrimary">#4ABDAC</color>
     <color name="colorSecondary">#008F95</color>
+    <color name="colorCancel">#EA3C53</color>
 </resources>

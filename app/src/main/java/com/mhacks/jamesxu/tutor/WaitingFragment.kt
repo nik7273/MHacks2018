@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.fragment_waiting.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,6 +29,7 @@ class WaitingFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -36,5 +38,13 @@ class WaitingFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_waiting, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        cancel_tutor.setOnClickListener {
+            StudTutorActivity.waiting = false
+            (activity as? StudTutorActivity)?.navigateToFragment(StudentFragment())
+        }
+
+    }
 
 }
